@@ -10,40 +10,40 @@ lightweight than the original "SensorBaseClient" from Hackystat.
 
 The Hackystat XML format looks as follows:
 
- <?xml version="1.0"?>
- <SensorData>
-  <Timestamp>2007-04-30T09:00:00.000-10:00</Timestamp>
-  <Runtime>2007-04-30T09:00:00.000-10:00</Runtime>
-  <Tool>Subversion</Tool>
-  <SensorDataType>Commit</SensorDataType>
-  <Resource>file://home/johnson/svn/Foo/build.xml</Resource>
-  <Owner>http://dasha.ics.hawaii.edu:9876/sensorbase/user/hongbing@hawaii.edu</Owner>
-  <Properties>
-   <Property>
-    <Key>TotalLines</Key>
-    <Value>137</Value>
-   </Property>
-   <Property>
-    <Key>LinesAdded</Key>
-    <Value>10</Value>
-   </Property>
-   <Property>
-    <Key>LinesDeleted</Key>
-    <Value>12</Value>
-   </Property>
-   <Property>
-    <Key>Repository</Key>
-    <Value>svn://www.hackystat.org/</Value>
-   </Property>
-   <Property>
-    <Key>RevisionNumber</Key>
-    <Value>2345</Value>
-   </Property>
-   <Property>
-    <Key>Author</Key> 
-    <Value>johnson</Value>
-   </Property>
-  </Properties>
- </SensorData>
+    <?xml version="1.0"?>
+    <SensorData>
+     <Timestamp>2007-04-30T09:00:00.000-10:00</Timestamp>
+     <Runtime>2007-04-30T09:00:00.000-10:00</Runtime>
+     <Tool>Subversion</Tool>
+     <SensorDataType>Commit</SensorDataType>
+     <Resource>file://home/johnson/svn/Foo/build.xml</Resource>
+     <Owner>http://dasha.ics.hawaii.edu:9876/sensorbase/user/hongbing@hawaii.edu</Owner>
+     <Properties>
+      <Property>
+       <Key>TotalLines</Key>
+       <Value>137</Value>
+      </Property>
+      <Property>
+       <Key>LinesAdded</Key>
+       <Value>10</Value>
+      </Property>
+      <Property>
+       <Key>LinesDeleted</Key>
+       <Value>12</Value>
+      </Property>
+      <Property>
+       <Key>Repository</Key>
+       <Value>svn://www.hackystat.org/</Value>
+      </Property>
+      <Property>
+       <Key>RevisionNumber</Key>
+       <Value>2345</Value>
+      </Property>
+      <Property>
+       <Key>Author</Key> 
+       <Value>johnson</Value>
+      </Property>
+     </Properties>
+    </SensorData>
 
 More information is (hopefully still) available in the Wiki: https://code.google.com/archive/p/hackystat/wikis/SensorDataTypeSpecifications.wiki
