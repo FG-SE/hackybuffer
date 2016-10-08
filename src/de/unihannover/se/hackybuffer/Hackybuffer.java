@@ -19,7 +19,6 @@ package de.unihannover.se.hackybuffer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -53,6 +52,8 @@ public class Hackybuffer {
     private final File rootDir;
     private final Random rnd;
 
+    private long lastTime;
+
     /**
      * Creates a new Hackybuffer instance.
      * @param rootDir The directory where the data will be stored. Has to exist.
@@ -64,11 +65,13 @@ public class Hackybuffer {
         }
         this.rootDir = rootDir;
         this.rnd = new Random();
+        this.lastTime = Long.MIN_VALUE;
     }
 
     /**
-     * Writes a sensor event to the corresponding directory.
-     * @param time The date and time the event occurred.
+     * Writes a sensor event to the corresponding directory. The current time is used as the timestamp.
+     * If the current time is not after the last time (in millisecond resolution), the timestamp is
+     * artificially moved to the future to ensure that time and causality order are consistent.
      * @param tool The tool from which the event originates.
      * @param sensorDataType The data type of the sensor data. See the wiki for existing data types.
      * @param resource The resource (e.g. file or ticket) to which the event applies.
@@ -79,7 +82,6 @@ public class Hackybuffer {
      * @throws TransformerException
      */
     public synchronized void writeData(
-                    Date time,
                     String tool,
                     String sensorDataType,
                     String resource,
@@ -88,9 +90,13 @@ public class Hackybuffer {
                 throws HackybufferException {
 
         try {
-            final GregorianCalendar g = new GregorianCalendar();
-            g.setTime(time);
-            final XMLGregorianCalendar timestamp = DatatypeFactory.newInstance().newXMLGregorianCalendar(g);
+            final long time = System.currentTimeMillis();
+            if (time <= this.lastTime) {
+                this.lastTime++;
+            } else {
+                this.lastTime = time;
+            }
+            final XMLGregorianCalendar timestamp = this.toXml(this.lastTime);
 
 
             final DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
@@ -132,6 +138,12 @@ public class Hackybuffer {
         } catch (final TransformerException | ParserConfigurationException | DatatypeConfigurationException e) {
             throw new HackybufferException(e);
         }
+    }
+
+    private XMLGregorianCalendar toXml(long time) throws DatatypeConfigurationException {
+        final GregorianCalendar g = new GregorianCalendar();
+        g.setTimeInMillis(time);
+        return DatatypeFactory.newInstance().newXMLGregorianCalendar(g);
     }
 
     private String toValidFilename(String s) {
